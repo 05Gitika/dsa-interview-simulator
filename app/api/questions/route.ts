@@ -5,13 +5,17 @@ export async function POST(
   request: Request
 ) {
   try {
-    const { topic } =
-      await request.json();
-
-    const result =
-      await generateQuestions(
-        topic
-      );
+    const {
+  topic,
+  difficulty,
+  count,
+} = await request.json();
+const result =
+  await generateQuestions(
+    topic,
+    difficulty,
+    Number(count)
+  );
 
     return NextResponse.json(
       result

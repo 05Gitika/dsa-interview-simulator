@@ -1,33 +1,31 @@
 import ai from "./gemini";
 
 export async function generateQuestions(
-  topic: string
+  topic: string,
+  difficulty: string,
+  count: number
 ) {
-const prompt = `
+  const prompt = `
 You are a DSA interviewer.
 
-The topic is:
+Topic: ${topic}
 
-${topic}
+Difficulty: ${difficulty}
 
-Generate exactly 5 interview questions about ${topic}.
+Generate exactly ${count} conceptual DSA interview questions.
 
-Question Structure:
+Rules:
 
-1. Basic understanding
-2. Approach discussion
-3. Complexity analysis
-4. Optimization discussion
-5. Advanced follow-up
+- Difficulty must be ${difficulty}
+- No coding questions
+- No implementation tasks
+- Interview-style conceptual questions only
+- Return JSON only
 
-Do not generate new coding problems.
-
-Return ONLY JSON:
+Format:
 
 {
   "questions": [
-    "...",
-    "...",
     "...",
     "...",
     "..."
@@ -35,17 +33,48 @@ Return ONLY JSON:
 }
 `;
 
-  const response =
-    await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-    });
+  try {
+    console.log(
+      "Generating questions for:",
+      topic
+    );
 
-  const text = response.text ?? "";
-  const cleanedText = text
-    .replace(/```json/g, "")
-    .replace(/```/g, "")
-    .trim();
+    const response =
+      await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+      });
 
-return JSON.parse(cleanedText);
+    const text =
+      response.text ?? "";
+
+    console.log(
+      "RAW GEMINI RESPONSE:"
+    );
+
+    console.log(text);
+
+    const cleanedText = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const parsed =
+      JSON.parse(cleanedText);
+
+    console.log(
+      "PARSED RESPONSE:"
+    );
+
+    console.log(parsed);
+
+    return parsed;
+  } catch (error) {
+    console.error(
+      "QUESTION GENERATION ERROR:",
+      error
+    );
+
+    throw error;
+  }
 }

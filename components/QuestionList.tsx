@@ -38,6 +38,17 @@ export function QuestionList({
 
   const [isEvaluating, setIsEvaluating] =
     useState(false);
+  const [totalScore, setTotalScore] =
+    useState(0);
+
+  const [averageScore, setAverageScore] =
+    useState(0);
+
+  const [highestScore, setHighestScore] =
+    useState(0);
+
+  const [lowestScore, setLowestScore] =
+    useState(0);
   useEffect(() => {
     setAnswers(
       Array(questions.length).fill("")
@@ -165,6 +176,107 @@ export function QuestionList({
       setIsEvaluating(false);
     }
   }
+  async function handleFinishInterview() {
+    setIsEvaluating(true);
+
+    try {
+      const updatedAnswers = [...answers];
+
+      updatedAnswers[currentIndex] =
+        answer;
+
+      setAnswers(updatedAnswers);
+
+      const allEvaluations: Evaluation[] =
+        [];
+
+      for (
+        let i = 0;
+        i < questions.length;
+        i++
+      ) {
+        const response =
+          await fetch(
+            "/api/evaluate",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body: JSON.stringify({
+                question:
+                  questions[i],
+                answer:
+                  updatedAnswers[
+                  i
+                  ] || "",
+              }),
+            }
+          );
+
+        const evaluation =
+          await response.json();
+
+        allEvaluations.push(
+          evaluation
+        );
+      }
+
+      setEvaluations(
+        allEvaluations
+      );
+
+      const total =
+        allEvaluations.reduce(
+          (sum, item) =>
+            sum + item.score,
+          0
+        );
+
+      const average =
+        total /
+        allEvaluations.length;
+
+      const highest =
+        Math.max(
+          ...allEvaluations.map(
+            (item) =>
+              item.score
+          )
+        );
+
+      const lowest =
+        Math.min(
+          ...allEvaluations.map(
+            (item) =>
+              item.score
+          )
+        );
+
+      setTotalScore(total);
+
+      setAverageScore(
+        Number(
+          average.toFixed(1)
+        )
+      );
+
+      setHighestScore(
+        highest
+      );
+
+      setLowestScore(
+        lowest
+      );
+
+      setIsComplete(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsEvaluating(false);
+    }
+  }
 
   if (isComplete) {
     return (
@@ -172,6 +284,37 @@ export function QuestionList({
         <h2 className="text-2xl font-bold">
           Interview Complete!!
         </h2>
+
+        <div className="border rounded-lg p-4 space-y-2">
+          <p>
+            <strong>
+              Total Score:
+            </strong>{" "}
+            {totalScore}/
+            {questions.length * 10}
+          </p>
+
+          <p>
+            <strong>
+              Average Score:
+            </strong>{" "}
+            {averageScore}/10
+          </p>
+
+          <p>
+            <strong>
+              Highest Score:
+            </strong>{" "}
+            {highestScore}/10
+          </p>
+
+          <p>
+            <strong>
+              Lowest Score:
+            </strong>{" "}
+            {lowestScore}/10
+          </p>
+        </div>
 
         <p className="text-muted-foreground">
           Here are all your answers:
@@ -330,24 +473,16 @@ export function QuestionList({
 
         {isLastQuestion ? (
           <Button
-            onClick={() => {
-              const updatedAnswers =
-                [...answers];
-
-              updatedAnswers[
-                currentIndex
-              ] = answer;
-
-              setAnswers(
-                updatedAnswers
-              );
-
-              setIsComplete(
-                true
-              );
-            }}
+            onClick={
+              handleFinishInterview
+            }
+            disabled={
+              isEvaluating
+            }
           >
-            Finish Interview
+            {isEvaluating
+              ? "Generating Report..."
+              : "Finish Interview"}
           </Button>
         ) : (
           <Button
