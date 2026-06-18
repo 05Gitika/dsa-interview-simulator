@@ -6,32 +6,56 @@ export async function POST(
 ) {
   try {
     const {
-  topic,
-  difficulty,
-  count,
-} = await request.json();
-const result =
-  await generateQuestions(
-    topic,
-    difficulty,
-    Number(count)
-  );
+      topic,
+      difficulty,
+      count,
+      analysis,
+    } = await request.json();
+    
+    const result = await generateQuestions(
+      topic,
+      difficulty,
+      Number(count),
+      analysis
+    );
 
     return NextResponse.json(
       result
     );
-  } catch (error) {
+  } catch (error: any) {
+
     console.error(
-      "API ERROR:",
+      "Question Generation Error:",
       error
     );
 
-    return NextResponse.json(
+    if (error?.status === 503) {
+
+      return Response.json(
+        {
+          success: false,
+          error:
+            "AI service is currently busy. Please try again in a few moments."
+        },
+        { status: 503 }
+      );
+    }
+
+    return Response.json(
       {
+        success: false,
         error:
-          "Failed to generate questions",
+          "Unable to generate interview questions."
       },
       { status: 500 }
     );
   }
+
+  return NextResponse.json(
+    {
+      error:
+        "Failed to generate questions",
+    },
+    { status: 500 }
+  );
 }

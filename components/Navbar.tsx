@@ -1,7 +1,35 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
+  const [user, setUser] =
+  useState<any>(null);
+
+useEffect(() => {
+  const storedUser =
+    localStorage.getItem("user");
+
+  if (storedUser) {
+    setUser(
+      JSON.parse(storedUser)
+    );
+  }
+}, []);
+
+function logout() {
+  localStorage.removeItem(
+    "token"
+  );
+
+  localStorage.removeItem(
+    "user"
+  );
+
+  window.location.href =
+    "/login";
+}
   return (
     <nav className="border-b">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
@@ -26,17 +54,38 @@ export function Navbar() {
   </a>
 </div>
 
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-          >
-            Login
-          </Button>
+        {user ? (
+  <div className="flex items-center gap-3">
 
-          <Button>
-            Sign Up
-          </Button>
-        </div>
+    <span className="text-sm font-medium">
+      Hello, {user.name}
+    </span>
+
+    <Button
+      variant="outline"
+      onClick={logout}
+    >
+      Logout
+    </Button>
+
+  </div>
+) : (
+  <div className="flex gap-3">
+
+    <Link href="/login">
+      <Button variant="outline">
+        Login
+      </Button>
+    </Link>
+
+    <Link href="/signup">
+      <Button>
+        Sign Up
+      </Button>
+    </Link>
+
+  </div>
+)}
       </div>
     </nav>
   );

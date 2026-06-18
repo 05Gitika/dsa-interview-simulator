@@ -5,6 +5,8 @@ import { QuestionCard } from "./QuestionCard";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Evaluation } from "@/types/evaluation";
+import { useRouter } from "next/navigation";
+
 
 declare global {
   interface Window {
@@ -49,6 +51,9 @@ export function QuestionList({
 
   const [lowestScore, setLowestScore] =
     useState(0);
+
+  const router = useRouter();
+
   useEffect(() => {
     setAnswers(
       Array(questions.length).fill("")
@@ -270,7 +275,66 @@ export function QuestionList({
         lowest
       );
 
-      setIsComplete(true);
+      const strengths = allEvaluations.flatMap(
+        (item) => item.strengths || []
+      );
+
+      const weaknesses = allEvaluations.flatMap(
+        (item) => item.weaknesses || []
+      );
+
+      const report = {
+        totalScore: total,
+        averageScore: Number(
+          average.toFixed(1)
+        ),
+        highestScore: highest,
+        lowestScore: lowest,
+
+        strengths,
+
+        weaknesses,
+
+        feedbacks: allEvaluations.map(
+          (item) => item.feedback
+        ),
+
+        improvements:
+          allEvaluations.map(
+            (item) => item.improvement
+          ),
+      };
+
+      await fetch(
+        "/api/interviews",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            topic:
+              localStorage.getItem(
+                "selectedTopic"
+              ) || "Unknown",
+
+            ...report,
+          }),
+        }
+      );
+
+      localStorage.setItem(
+        "interviewReport",
+        JSON.stringify(report)
+      );
+
+      router.push(
+        "/interview/result"
+      );
+
     } catch (error) {
       console.error(error);
     } finally {

@@ -62,7 +62,10 @@ export default function LeetCodeInput() {
 
                 localStorage.setItem(
                     "profileAnalysis",
-                    JSON.stringify(result)
+                    JSON.stringify({
+                        analysis: result,
+                        profile: data,
+                    })
                 );
             }
         } catch (error) {
@@ -151,55 +154,55 @@ export default function LeetCodeInput() {
                                 {profile.hardSolved}
                             </p>
                         </div>
-                        </div>
-                        {analysis && (
-                            <div className="mt-6">
+                    </div>
+                    {analysis && (
+                        <div className="mt-6">
 
-                                <h3 className="font-bold text-lg mb-2">
-                                    Strengths
-                                </h3>
-                                <div className="flex gap-2 flex-wrap">
-                                    {analysis.strengths.map((topic: TopicCount) => (
-                                        <span
-                                            key={topic.tagName}
-                                            className="
+                            <h3 className="font-bold text-lg mb-2">
+                                Strengths
+                            </h3>
+                            <div className="flex gap-2 flex-wrap">
+                                {analysis.strengths.map((topic: TopicCount) => (
+                                    <span
+                                        key={topic.tagName}
+                                        className="
 bg-green-100
 text-green-700
 px-3
 py-1
 rounded-full
 "
-                                        >
-                                            {topic.tagName}
-                                        </span>
-                                    ))}
-                                </div>
+                                    >
+                                        {topic.tagName}
+                                    </span>
+                                ))}
+                            </div>
 
-                                <h3 className="font-bold text-lg mt-6 mb-2">
-                                    Weaknesses
-                                </h3>
-                                <div className="flex gap-2 flex-wrap">
-                                    {analysis.weaknesses.map((topic: TopicCount) => (
-                                        <span
-                                            key={topic.tagName}
-                                            className="
+                            <h3 className="font-bold text-lg mt-6 mb-2">
+                                Weaknesses
+                            </h3>
+                            <div className="flex gap-2 flex-wrap">
+                                {analysis.weaknesses.map((topic: TopicCount) => (
+                                    <span
+                                        key={topic.tagName}
+                                        className="
 bg-red-100
 text-red-700
 px-3
 py-1
 rounded-full
 "
-                                        >
-                                            {topic.tagName}
-                                        </span>
-                                    ))}
-                                </div>
-                                <RecommendedTopics
-                                    strengths={analysis.strengths}
-                                    weaknesses={analysis.weaknesses}
-                                />
+                                    >
+                                        {topic.tagName}
+                                    </span>
+                                ))}
                             </div>
-                        )}
+                            <RecommendedTopics
+                                strengths={analysis.strengths}
+                                weaknesses={analysis.weaknesses}
+                            />
+                        </div>
+                    )}
                 </div>
             )}
         </div>

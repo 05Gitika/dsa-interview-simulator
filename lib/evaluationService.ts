@@ -21,15 +21,17 @@ Return ONLY valid JSON.
 {
   "score": 0,
   "feedback": "",
-  "improvement": ""
+  "improvement": "",
+  "strengths": [],
+  "weaknesses": []
 }
 
 Rules:
 - score must be between 0 and 10
 - feedback should explain what was good
 - improvement should explain what is missing
-- do not return markdown
-- do not return explanations outside JSON
+- strengths must contain 2-3 bullet points
+- weaknesses must contain 2-3 bullet points
 `;
 
   const response = await ai.models.generateContent({
@@ -48,12 +50,20 @@ Rules:
 
     return {
       score: Number(parsed.score) || 0,
+
       feedback:
         parsed.feedback ||
         "No feedback provided.",
+
       improvement:
         parsed.improvement ||
         "No improvement provided.",
+
+      strengths:
+        parsed.strengths || [],
+
+      weaknesses:
+        parsed.weaknesses || [],
     };
   } catch (error) {
     console.error(error);
@@ -62,8 +72,13 @@ Rules:
       score: 0,
       feedback:
         "Unable to evaluate answer.",
+
       improvement:
         "Please try again.",
+
+      strengths: [],
+
+      weaknesses: [],
     };
   }
 }

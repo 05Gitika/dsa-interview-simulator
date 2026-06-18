@@ -28,6 +28,14 @@ function InterviewContent() {
     useState(false);
 
   async function handleSubmit() {
+    const storedAnalysis = localStorage.getItem(
+      "profileAnalysis"
+    );
+
+    const analysis = storedAnalysis
+      ? JSON.parse(storedAnalysis)
+      : null;
+
     if (!topic) return;
 
     setIsLoading(true);
@@ -45,6 +53,7 @@ function InterviewContent() {
             topic,
             difficulty,
             count,
+            analysis,
           }),
         }
       );

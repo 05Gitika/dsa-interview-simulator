@@ -25,7 +25,7 @@ export function Hero() {
           AI-powered feedback instantly.
         </p>
         <div className="mt-10 flex justify-center gap-4">
-          <Link href="/setup">
+          <Link href="/signup">
             <Button 
             size="lg"
             variant="outline">
@@ -33,12 +33,14 @@ export function Hero() {
             </Button>
           </Link>
 
-          <Button
-            size="lg"
-            variant="outline"
-          >
-            Learn More
-          </Button>
+          <Link href="/learn-more">
+            <Button
+              size="lg"
+              variant="outline"
+            >
+              Learn More
+            </Button>
+          </Link>
         </div>
 
       </div>
