@@ -41,7 +41,7 @@ export function Features() {
           Features
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className=" grid md:grid-cols-3 gap-6">
 
           {features.map(
             (feature) => {
@@ -49,7 +49,15 @@ export function Features() {
                 feature.icon;
 
               return (
-                <Card
+                <Card className="
+  border
+  rounded-xl
+  p-4
+  transition-all
+  duration-300
+  hover:shadow-lg
+  hover:-translate-y-1
+"
                   key={feature.title}
                 >
                   <CardHeader>

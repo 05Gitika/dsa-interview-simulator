@@ -10,10 +10,21 @@ export function ProductPreview() {
     <section className="py-16 px-6">
       <div className="max-w-4xl mx-auto">
 
-        <Card className="shadow-xl border-2">
+        <Card className="
+  shadow-2xl
+  border
+  rounded-3xl
+  transition-all
+  duration-300
+  hover:shadow-3xl
+">
 
           <CardHeader>
-            <CardTitle>
+            <div className="inline-flex w-fit items-center rounded-full border px-3 py-1 text-xs font-medium mb-3">
+              AI Powered Interview
+            </div>
+
+            <CardTitle className="text-2xl">
               Live Interview Preview
             </CardTitle>
           </CardHeader>
@@ -25,14 +36,14 @@ export function ProductPreview() {
                 Question 1 of 5
               </p>
 
-              <h3 className="font-semibold text-xl mt-2">
+              <h3 className="font-semibold text-2xl mt-2 leading-relaxed">
                 Explain the difference between
                 Merge Sort and Quick Sort.
               </h3>
             </div>
 
-            <div className="border rounded-lg p-4 bg-muted/30">
-              <p className="text-sm font-medium mb-2">
+            <div className="border rounded-xl p-5 bg-muted/20">
+              <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
                 Candidate Answer
               </p>
 
@@ -47,17 +58,34 @@ export function ProductPreview() {
 
             <div className="grid md:grid-cols-3 gap-4">
 
-              <div className="border rounded-lg p-4">
+              <div className="
+  border
+  rounded-xl
+  p-4
+  transition-all
+  duration-300
+  hover:shadow-lg
+  hover:-translate-y-1
+">
                 <p className="text-sm text-muted-foreground">
                   Score
                 </p>
 
-                <p className="text-2xl font-bold">
+                <p className="text-4xl font-bold">
                   8/10
                 </p>
+
               </div>
 
-              <div className="border rounded-lg p-4">
+              <div className="
+  border
+  rounded-xl
+  p-4
+  transition-all
+  duration-300
+  hover:shadow-lg
+  hover:-translate-y-1
+">
                 <p className="text-sm text-muted-foreground">
                   Feedback
                 </p>
@@ -67,7 +95,15 @@ export function ProductPreview() {
                 </p>
               </div>
 
-              <div className="border rounded-lg p-4">
+              <div className="
+  border
+  rounded-xl
+  p-4
+  transition-all
+  duration-300
+  hover:shadow-lg
+  hover:-translate-y-1
+">
                 <p className="text-sm text-muted-foreground">
                   Improvement
                 </p>

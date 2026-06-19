@@ -31,7 +31,15 @@ export function Navbar() {
       "/login";
   }
   return (
-    <nav className="border-b">
+    <nav
+  className="
+    fixed top-0 left-0 right-0 z-50
+    bg-white/10
+    backdrop-blur-md
+    border-b border-white/20
+    shadow-lg
+  "
+>
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link
           href="/"
@@ -42,15 +50,15 @@ export function Navbar() {
 
         <div className="hidden md:flex gap-8">
           <nav className="flex items-center gap-6">
-            <a href="#features" className="transition-transform duration-300 hover:scale-105">
+            <a href="/#features" className="transition-transform duration-300 hover:scale-105">
               Features
             </a>
 
-            <a href="#how-it-works" className="transition-transform duration-300 hover:scale-105">
+            <a href="/#how-it-works" className="transition-transform duration-300 hover:scale-105">
               How It Works
             </a>
 
-            <a href="#about" className="transition-transform duration-300 hover:scale-105">
+            <a href="/#about" className="transition-transform duration-300 hover:scale-105">
               About
             </a>
           </nav>
