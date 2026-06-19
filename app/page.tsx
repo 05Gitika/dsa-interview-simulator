@@ -14,11 +14,17 @@ export default function Home() {
   return (
     <main>
       <Navbar />
-      <Hero />
+      <section id="about">
+        <Hero />
+      </section>
       <ProductPreview />
       <Stats />
-      <Features />
-      <HowItWorks />
+      <section id="features">
+        <Features />
+      </section>
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
       <CTA />
       <Footer />
     </main>

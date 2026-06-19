@@ -1,8 +1,20 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function Hero() {
+  const router = useRouter();
+
+  const handleStartInterview = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/setup");
+    } else {
+      router.push("/signup");
+    }
+  };
   return (
+
     <section
       className="
   py-32
@@ -25,13 +37,9 @@ export function Hero() {
           AI-powered feedback instantly.
         </p>
         <div className="mt-10 flex justify-center gap-4">
-          <Link href="/signup">
-            <Button 
-            size="lg"
-            variant="outline">
-              Start Interview
-            </Button>
-          </Link>
+          <Button size="lg" onClick={handleStartInterview}>
+            Start Interview
+          </Button>
 
           <Link href="/learn-more">
             <Button
