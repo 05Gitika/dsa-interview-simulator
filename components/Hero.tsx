@@ -41,7 +41,7 @@ export function Hero() {
             Start Interview
           </Button>
 
-          <Link href="/learn-more">
+          <Link href="/learnmore">
             <Button
               size="lg"
               variant="outline"
